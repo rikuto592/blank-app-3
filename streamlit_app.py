@@ -1,10 +1,9 @@
 import streamlit as st
 
 st.title("🥕 食材選択式レシピ提案アプリ")
+st.write("使いたい食材を選択してください。選択した食材が1つでも使えるレシピを提案します。")
 
-st.write("使いたい食材を選択してください。選択した食材で作れるレシピを表示します。")
-
-# レシピデータベース（拡張版）
+# レシピデータベース
 recipes = [
     {
         "name": "ベーコンオムレツ",
@@ -60,13 +59,12 @@ selected_ingredients = st.multiselect(
 if selected_ingredients:
     user_ingredients = set(selected_ingredients)
 
-    st.subheader("🍳 作れるレシピ")
+    st.subheader("🍳 提案メニュー")
     found = False
 
-        for recipe in recipes:
-        # 1つでも食材が一致していれば候補にする
+    for recipe in recipes:
         common = recipe["ingredients"] & user_ingredients
-        if common:
+        if len(common) > 0:
             st.markdown(f"### {recipe['name']}")
             st.write(f"使える食材: {', '.join(common)}")
             st.text(recipe["steps"])
@@ -74,4 +72,3 @@ if selected_ingredients:
 
     if not found:
         st.write("選択した食材を使えるレシピがありません。")
-
