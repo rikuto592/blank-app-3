@@ -63,12 +63,15 @@ if selected_ingredients:
     st.subheader("🍳 作れるレシピ")
     found = False
 
-    for recipe in recipes:
-        if recipe["ingredients"].issubset(user_ingredients):
+        for recipe in recipes:
+        # 1つでも食材が一致していれば候補にする
+        common = recipe["ingredients"] & user_ingredients
+        if common:
             st.markdown(f"### {recipe['name']}")
+            st.write(f"使える食材: {', '.join(common)}")
             st.text(recipe["steps"])
             found = True
 
     if not found:
-        st.write("この組み合わせでは作れるレシピがありません。")
-        st.write("別の食材を選択してください。")
+        st.write("選択した食材を使えるレシピがありません。")
+
